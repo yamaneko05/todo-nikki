@@ -11,14 +11,14 @@ export default function DayList() {
 
   useEffect(() => {
     (async () => {
-      setDays(await getDays(dayjs().toDate()));
+      setDays(await getDays(dayjs().add(-4, "day").toDate()));
     })();
   }, []);
 
   return (
     <div className="flex flex-col gap-4">
       {days.map((day, i) => (
-        <DayCard key={i} day={day} />
+        <DayCard key={i} day={day} dayIndex={i} />
       ))}
     </div>
   );

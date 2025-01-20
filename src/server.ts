@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "./utils/auth";
 import { prisma } from "./utils/prisma";
 import { getDays as getDaysSql } from "@prisma/client/sql";
 
@@ -14,4 +15,21 @@ export const getDays = async (date: Date) => {
   }));
 
   return days;
+};
+
+export const deleteTask = async (id: string) => {
+  await prisma.task.delete({ where: { id: id } });
+};
+
+export const createTask = async (date: Date) => {
+  const task = await prisma.task.create({
+    data: {
+      date: date,
+      name: "",
+      userId: (await auth())!.user!.id!,
+      done: false,
+    },
+  });
+
+  return task;
 };
