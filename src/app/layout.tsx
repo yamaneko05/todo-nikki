@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <div className="mx-auto w-[400px]">{children}</div>
+      </body>
     </html>
   );
 }

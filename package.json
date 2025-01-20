@@ -12,13 +12,17 @@
     "@auth/prisma-adapter": "^2.7.4",
     "@prisma/client": "^6.2.1",
     "dayjs": "^1.11.13",
+    "immer": "^10.1.1",
+    "lucide-react": "^0.473.0",
     "next": "15.1.5",
     "next-auth": "^5.0.0-beta.25",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@faker-js/faker": "^9.4.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -29,6 +33,10 @@
     "prettier-plugin-tailwindcss": "^0.6.10",
     "prisma": "^6.2.1",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "ts-node --project tsconfig.local.json prisma/seed.ts"
   }
 }

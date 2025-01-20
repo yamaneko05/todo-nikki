@@ -1,4 +1,5 @@
-import { auth, signOut } from "@/utils/auth";
+import DayList from "@/components/DayList";
+import { auth } from "@/utils/auth";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -6,10 +7,5 @@ export default async function Home() {
 
   if (!session) redirect("/login");
 
-  const handleClick = async () => {
-    "use server";
-    await signOut();
-  };
-
-  return <button onClick={handleClick}>ログアウト</button>;
+  return <DayList />;
 }
