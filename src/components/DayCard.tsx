@@ -14,8 +14,8 @@ export default function DayCard({
 }) {
   return (
     <div className="">
-      <div className="font-bold">{dayjs(day.date).calendar()}</div>
-      <div className="flex flex-col">
+      <div className="bg-gray-50 font-bold">{dayjs(day.date).calendar()}</div>
+      <div className="mt-1 flex flex-col">
         {day.tasks.map((task, i) => (
           <TaskCard
             key={task.id}
@@ -24,7 +24,9 @@ export default function DayCard({
             taskIndex={i}
           />
         ))}
-        <CreateTaskButton date={day.date} dayIndex={dayIndex} />
+        <div className="mt-1">
+          <CreateTaskButton date={day.date} dayIndex={dayIndex} />
+        </div>
       </div>
     </div>
   );

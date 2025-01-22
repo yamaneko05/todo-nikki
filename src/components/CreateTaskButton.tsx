@@ -17,9 +17,12 @@ export default function CreateTaskButton({
   };
 
   return (
-    <button onClick={handleClick} className="flex items-center gap-3 py-1">
+    <button
+      onClick={handleClick}
+      className="flex items-center gap-3 py-1 text-gray-500"
+    >
       <LucidePlus size={18} />
-      <div className="font-bold">タスクを作成</div>
+      <div className="text-sm font-bold">タスクを作成</div>
     </button>
   );
 }

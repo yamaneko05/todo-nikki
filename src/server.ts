@@ -33,3 +33,21 @@ export const createTask = async (date: Date) => {
 
   return task;
 };
+
+export const updateTask = async (
+  id: string,
+  name: string,
+  done: boolean,
+  date: Date,
+) => {
+  const task = await prisma.task.update({
+    where: { id: id },
+    data: {
+      name: name,
+      done: done,
+      date: date,
+    },
+  });
+
+  return task;
+};
