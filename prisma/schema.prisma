@@ -17,6 +17,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   tasks         Task[]
+  diaries       Diary[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -68,4 +69,15 @@ model Task {
   date   DateTime
   name   String
   done   Boolean
+}
+
+model Diary {
+  id      String   @id @default(cuid())
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+  date    DateTime
+  title   String
+  content String
+
+  @@unique([userId, date])
 }

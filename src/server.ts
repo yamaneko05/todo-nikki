@@ -51,3 +51,21 @@ export const updateTask = async (
 
   return task;
 };
+
+export const updateDiaryTitle = async (id: string, title: string) => {
+  const diary = await prisma.diary.update({
+    where: { id: id },
+    data: { title: title },
+  });
+
+  return diary;
+};
+
+export const updateDiaryContent = async (id: string, content: string) => {
+  const diary = await prisma.diary.update({
+    where: { id: id },
+    data: { content: content },
+  });
+
+  return diary;
+};

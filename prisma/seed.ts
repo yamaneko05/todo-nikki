@@ -11,6 +11,12 @@ const createDummyTask = () => ({
   done: false,
 });
 
+const createDummyDiary = (date: Date) => ({
+  title: faker.lorem.words(),
+  date: date,
+  content: faker.lorem.paragraphs(),
+});
+
 const prisma = new PrismaClient();
 
 (async () => {
@@ -23,6 +29,14 @@ const prisma = new PrismaClient();
       email: "o.yamaneko0331@example.com",
       tasks: {
         create: [...Array(64)].map(() => createDummyTask()),
+      },
+      diaries: {
+        create: faker.date
+          .betweens({
+            from: dayjs().add(-8, "day").toDate(),
+            to: dayjs().add(32, "day").toDate(),
+          })
+          .map((date) => createDummyDiary(date)),
       },
     },
   });
