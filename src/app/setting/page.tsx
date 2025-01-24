@@ -1,3 +1,4 @@
+import SettingHeader from "@/components/SettingHeader";
 import { auth, signOut } from "@/utils/auth";
 import { redirect } from "next/navigation";
 
@@ -13,7 +14,12 @@ export default async function SettingPage() {
 
   return (
     <>
-      <button onClick={handleClick}>ログアウト</button>
+      <SettingHeader />
+      <div className="px-3 py-2">
+        <button onClick={handleClick} className="w-full py-2 text-left">
+          ログアウト
+        </button>
+      </div>
     </>
   );
 }

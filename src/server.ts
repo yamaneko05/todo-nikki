@@ -1,18 +1,39 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { auth } from "./utils/auth";
+import dayjs from "./utils/dayjs";
 import { prisma } from "./utils/prisma";
-import { getDays as getDaysSql } from "@prisma/client/sql";
 
 export const getDays = async (date: Date) => {
-  const tasks = await prisma.$queryRawTyped(getDaysSql(date));
+  const DAYS_PER_FETCH = 24;
 
-  const days = Object.entries(
-    Object.groupBy(tasks, (result) => result.dayDate!.toISOString()),
-  ).map(([date, results]) => ({
-    date: new Date(date),
-    tasks: results!.filter((task) => task.id),
-  }));
+  const tasks = await prisma.task.findMany({
+    where: {
+      date: {
+        lte: dayjs(date).add(DAYS_PER_FETCH, "day").toDate(),
+        gte: date,
+      },
+    },
+  });
+
+  const diaries = await prisma.diary.findMany({
+    where: {
+      date: {
+        lte: dayjs(date).add(DAYS_PER_FETCH, "day").toDate(),
+        gte: date,
+      },
+    },
+  });
+
+  const days = [...Array(DAYS_PER_FETCH)].map((_, i) => {
+    const currentDate = dayjs(date).add(i, "day");
+    return {
+      date: currentDate.toDate(),
+      tasks: tasks.filter((task) => currentDate.isSame(task.date, "day")),
+      diary: diaries.find((diary) => currentDate.isSame(diary.date, "day")),
+    };
+  });
 
   return days;
 };
@@ -68,4 +89,23 @@ export const updateDiaryContent = async (id: string, content: string) => {
   });
 
   return diary;
+};
+
+export const createDiary = async (date: Date) => {
+  const diary = await prisma.diary.create({
+    data: {
+      date: date,
+      title: "",
+      content: "",
+      userId: (await auth())!.user!.id!,
+    },
+  });
+
+  redirect(`/diary/${diary.id}`);
+};
+
+export const deleteDiary = async (id: string) => {
+  await prisma.diary.delete({ where: { id: id } });
+
+  redirect("/days");
 };

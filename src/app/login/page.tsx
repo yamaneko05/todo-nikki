@@ -1,4 +1,5 @@
 import { auth, signIn } from "@/utils/auth";
+import { LucideGithub } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
@@ -13,12 +14,16 @@ export default async function LoginPage() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      <button
-        onClick={handleClick}
-        className="rounded bg-slate-800 px-4 py-2 font-bold text-white"
-      >
-        GitHubアカウントでログイン
-      </button>
+      <div className="">
+        <div className="text-center text-2xl font-bold">Todo日記</div>
+        <button
+          onClick={handleClick}
+          className="mt-8 flex items-center gap-3 rounded bg-slate-800 px-4 py-2 font-bold text-white"
+        >
+          <LucideGithub />
+          GitHubアカウントでログイン
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import DiaryEdit from "@/components/DiaryEdit";
+import DiaryHeader from "@/components/DiaryHeader";
 import { prisma } from "@/utils/prisma";
 import { notFound } from "next/navigation";
 
@@ -13,5 +14,12 @@ export default async function DiaryEditPage({
 
   if (!diary) notFound();
 
-  return <DiaryEdit diary={diary} />;
+  return (
+    <>
+      <DiaryHeader />
+      <div className="px-3 py-2">
+        <DiaryEdit diary={diary} />
+      </div>
+    </>
+  );
 }

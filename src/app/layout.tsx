@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Noto_Sans_JP } from "next/font/google";
+
+export const notoSansJp = Noto_Sans_JP({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Todo日記",
@@ -13,8 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="font-sans">
-        <div className="mx-auto w-[400px]">{children}</div>
+      <body className={`bg-slate-50 ${notoSansJp.className}`}>
+        <div className="mx-auto min-h-screen max-w-[400px] bg-white">
+          {children}
+        </div>
       </body>
     </html>
   );

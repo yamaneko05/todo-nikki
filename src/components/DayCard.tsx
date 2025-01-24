@@ -4,6 +4,8 @@ import { Day } from "@/hooks/useDaysStore";
 import dayjs from "@/utils/dayjs";
 import TaskCard from "./TaskCard";
 import CreateTaskButton from "./CreateTaskButton";
+import DiaryCard from "./DiaryCard";
+import CreateDiaryButton from "./CreateDiaryButton";
 
 export default function DayCard({
   day,
@@ -13,8 +15,17 @@ export default function DayCard({
   dayIndex: number;
 }) {
   return (
-    <div className="">
-      <div className="bg-gray-50 font-bold">{dayjs(day.date).calendar()}</div>
+    <div className="rounded px-3 py-2 shadow">
+      <div className="font-bold text-gray-500">
+        {dayjs(day.date).format("M/D (ddd)")}
+      </div>
+      <div className="mt-1">
+        {day.diary ? (
+          <DiaryCard diary={day.diary} />
+        ) : (
+          <CreateDiaryButton date={day.date} />
+        )}
+      </div>
       <div className="mt-1 flex flex-col">
         {day.tasks.map((task, i) => (
           <TaskCard

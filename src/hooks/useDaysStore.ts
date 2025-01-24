@@ -1,16 +1,17 @@
-import { Task } from "@prisma/client";
-import { getDays } from "@prisma/client/sql";
+import * as server from "@/server";
+import { Diary, Task } from "@prisma/client";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 export interface Day {
   date: Date;
-  tasks: getDays.Result[];
+  tasks: Task[];
+  diary?: Diary;
 }
 
 interface DaysStore {
   days: Day[];
-  setDays: (days: Day[]) => void;
+  loadDays: (date: Date) => void;
   deleteTask: (dayIndex: number, taskIndex: number) => void;
   createTask: (dayIndex: number, task: Task) => void;
   updateTask: (
@@ -25,10 +26,12 @@ interface DaysStore {
 const useDaysStore = create<DaysStore>()(
   immer((set) => ({
     days: [],
-    setDays: (days: Day[]) =>
+    loadDays: async (date: Date) => {
+      const days = await server.getDays(date);
       set((draft) => {
         draft.days = days;
-      }),
+      });
+    },
     deleteTask: (dayIndex: number, taskIndex: number) =>
       set((draft) => {
         draft.days[dayIndex].tasks = draft.days[dayIndex].tasks.filter(
@@ -37,10 +40,7 @@ const useDaysStore = create<DaysStore>()(
       }),
     createTask: (dayIndex: number, task: Task) => {
       set((draft) => {
-        draft.days[dayIndex].tasks.push({
-          ...task,
-          dayDate: task.date,
-        });
+        draft.days[dayIndex].tasks.push(task);
       });
     },
     updateTask: (

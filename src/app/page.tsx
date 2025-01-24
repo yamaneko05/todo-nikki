@@ -1,4 +1,5 @@
 import DayList from "@/components/DayList";
+import HomeHeader from "@/components/HomeHeader";
 import { auth } from "@/utils/auth";
 import { redirect } from "next/navigation";
 
@@ -7,5 +8,12 @@ export default async function Home() {
 
   if (!session) redirect("/login");
 
-  return <DayList />;
+  return (
+    <>
+      <HomeHeader />
+      <div className="px-3 py-2">
+        <DayList />
+      </div>
+    </>
+  );
 }

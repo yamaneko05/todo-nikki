@@ -3,17 +3,14 @@
 import useDaysStore from "@/hooks/useDaysStore";
 import DayCard from "./DayCard";
 import { useEffect } from "react";
-import { getDays } from "@/server";
 import dayjs from "@/utils/dayjs";
 
 export default function DayList() {
-  const { days, setDays } = useDaysStore();
+  const { days, loadDays } = useDaysStore();
 
   useEffect(() => {
-    (async () => {
-      setDays(await getDays(dayjs().add(-4, "day").toDate()));
-    })();
-  }, []);
+    loadDays(dayjs().add(-4, "day").toDate());
+  }, [loadDays]);
 
   return (
     <div className="flex flex-col gap-4">

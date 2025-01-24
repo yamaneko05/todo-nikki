@@ -1,5 +1,5 @@
 import useDaysStore from "@/hooks/useDaysStore";
-import { createTask as createTaskServer } from "@/server";
+import * as server from "@/server";
 import { LucidePlus } from "lucide-react";
 
 export default function CreateTaskButton({
@@ -12,7 +12,7 @@ export default function CreateTaskButton({
   const { createTask } = useDaysStore();
 
   const handleClick = async () => {
-    const task = await createTaskServer(date);
+    const task = await server.createTask(date);
     createTask(dayIndex, task);
   };
 

@@ -1,30 +1,27 @@
 import useDaysStore from "@/hooks/useDaysStore";
-import { getDays } from "@prisma/client/sql";
 import { LucideX } from "lucide-react";
-import {
-  deleteTask as deleteTaskServer,
-  updateTask as updateTaskServer,
-} from "@/server";
+import * as server from "@/server";
 import Checkbox from "./Checkbox";
+import { Task } from "@prisma/client";
 
 export default function TaskCard({
   task,
   dayIndex,
   taskIndex,
 }: {
-  task: getDays.Result;
+  task: Task;
   dayIndex: number;
   taskIndex: number;
 }) {
   const { deleteTask, updateTask } = useDaysStore();
 
   const handleDeleteClick = async () => {
-    await deleteTaskServer(task.id!);
+    await server.deleteTask(task.id!);
     deleteTask(dayIndex, taskIndex);
   };
 
   const handleCheckboxChange = async () => {
-    await updateTaskServer(task.id!, task.name!, !task.done, task.date!);
+    await server.updateTask(task.id!, task.name!, !task.done, task.date!);
     updateTask(dayIndex, taskIndex, task.name!, !task.done, task.date!);
   };
 
@@ -33,7 +30,7 @@ export default function TaskCard({
   };
 
   const handleInputBlur = async () => {
-    await updateTaskServer(task.id!, task.name!, task.done!, task.date!);
+    await server.updateTask(task.id!, task.name!, task.done!, task.date!);
   };
 
   return (
