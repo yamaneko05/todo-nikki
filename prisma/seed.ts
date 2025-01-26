@@ -5,8 +5,8 @@ import dayjs from "dayjs";
 const createDummyTask = () => ({
   name: faker.lorem.words(),
   date: faker.date.between({
-    from: dayjs().add(-8, "day").toDate(),
-    to: dayjs().add(32, "day").toDate(),
+    from: dayjs().add(-16, "day").toDate(),
+    to: dayjs().add(64, "day").toDate(),
   }),
   done: false,
 });
@@ -21,6 +21,7 @@ const prisma = new PrismaClient();
 
 (async () => {
   await prisma.task.deleteMany();
+  await prisma.diary.deleteMany();
   await prisma.user.deleteMany();
 
   await prisma.user.create({
@@ -28,13 +29,14 @@ const prisma = new PrismaClient();
       name: "だいち",
       email: "o.yamaneko0331@example.com",
       tasks: {
-        create: [...Array(64)].map(() => createDummyTask()),
+        create: [...Array(128)].map(() => createDummyTask()),
       },
       diaries: {
         create: faker.date
           .betweens({
-            from: dayjs().add(-8, "day").toDate(),
-            to: dayjs().add(32, "day").toDate(),
+            from: dayjs().add(-16, "day").toDate(),
+            to: dayjs().add(64, "day").toDate(),
+            count: 16,
           })
           .map((date) => createDummyDiary(date)),
       },

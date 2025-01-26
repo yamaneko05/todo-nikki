@@ -1,4 +1,5 @@
 import * as server from "@/server";
+import dayjs from "@/utils/dayjs";
 import { Diary, Task } from "@prisma/client";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -11,7 +12,9 @@ export interface Day {
 
 interface DaysStore {
   days: Day[];
-  loadDays: (date: Date) => void;
+  loadDays: () => void;
+  loadNextDays: () => void;
+  loadPreviousDays: () => void;
   deleteTask: (dayIndex: number, taskIndex: number) => void;
   createTask: (dayIndex: number, task: Task) => void;
   updateTaskName: (dayIndex: number, taskIndex: number, name: string) => void;
@@ -19,12 +22,31 @@ interface DaysStore {
 }
 
 const useDaysStore = create<DaysStore>()(
-  immer((set) => ({
+  immer((set, get) => ({
     days: [],
-    loadDays: async (date: Date) => {
-      const days = await server.getDays(date);
+    loadDays: async () => {
+      const dateGte = dayjs().add(-4, "day");
+      const dateLte = dateGte.add(15, "day");
+      const days = await server.getDays(dateGte.toDate(), dateLte.toDate());
+
       set((draft) => {
         draft.days = days;
+      });
+    },
+    loadNextDays: async () => {
+      const dateGte = dayjs(get().days.slice(-1)[0].date).add(1, "day");
+      const dateLte = dateGte.add(15, "day");
+      const newDays = await server.getDays(dateGte.toDate(), dateLte.toDate());
+      set((draft) => {
+        draft.days = [...draft.days, ...newDays];
+      });
+    },
+    loadPreviousDays: async () => {
+      const dateLte = dayjs(get().days[0].date).subtract(1, "day");
+      const dateGte = dateLte.subtract(15, "day");
+      const newDays = await server.getDays(dateGte.toDate(), dateLte.toDate());
+      set((draft) => {
+        draft.days = [...newDays, ...draft.days];
       });
     },
     deleteTask: (dayIndex: number, taskIndex: number) =>

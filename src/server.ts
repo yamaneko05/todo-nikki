@@ -2,17 +2,15 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "./utils/auth";
-import dayjs from "./utils/dayjs";
+import dayjs, { getDaysBetween } from "./utils/dayjs";
 import { prisma } from "./utils/prisma";
 
-export const getDays = async (date: Date) => {
-  const DAYS_PER_FETCH = 24;
-
+export const getDays = async (dateGte: Date, dateLte: Date) => {
   const tasks = await prisma.task.findMany({
     where: {
       date: {
-        lte: dayjs(date).add(DAYS_PER_FETCH, "day").toDate(),
-        gte: date,
+        gte: dateGte,
+        lte: dateLte,
       },
     },
   });
@@ -20,20 +18,21 @@ export const getDays = async (date: Date) => {
   const diaries = await prisma.diary.findMany({
     where: {
       date: {
-        lte: dayjs(date).add(DAYS_PER_FETCH, "day").toDate(),
-        gte: date,
+        gte: dateGte,
+        lte: dateLte,
       },
     },
   });
 
-  const days = [...Array(DAYS_PER_FETCH)].map((_, i) => {
-    const currentDate = dayjs(date).add(i, "day");
+  const days = getDaysBetween(dayjs(dateGte), dayjs(dateLte)).map((date) => {
     return {
-      date: currentDate.toDate(),
-      tasks: tasks.filter((task) => currentDate.isSame(task.date, "day")),
-      diary: diaries.find((diary) => currentDate.isSame(diary.date, "day")),
+      date: date.toDate(),
+      tasks: tasks.filter((task) => date.isSame(task.date, "day")),
+      diary: diaries.find((diary) => date.isSame(diary.date, "day")),
     };
   });
+
+  console.log(days.length);
 
   return days;
 };
