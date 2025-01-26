@@ -10,14 +10,14 @@ export default function Checkbox({ checked }: { checked: boolean }) {
     >
       {checked ? (
         <>
-          <rect x="1" y="1" width="16" height="16" rx="4" fill="#1A56DB" />
+          <rect x="1" y="1" width="16" height="16" rx="4" fill="#6366F1" />
           <rect
             x="1"
             y="1"
             width="16"
             height="16"
             rx="4"
-            stroke="#1A56DB"
+            stroke="#6366F1"
             strokeWidth="0.5"
           />
           <mask id="path-2-inside-1_3_3" fill="white">

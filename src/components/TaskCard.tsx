@@ -13,28 +13,28 @@ export default function TaskCard({
   dayIndex: number;
   taskIndex: number;
 }) {
-  const { deleteTask, updateTask } = useDaysStore();
+  const daysStore = useDaysStore();
 
   const handleDeleteClick = async () => {
+    daysStore.deleteTask(dayIndex, taskIndex);
     await server.deleteTask(task.id!);
-    deleteTask(dayIndex, taskIndex);
   };
 
   const handleCheckboxChange = async () => {
-    await server.updateTask(task.id!, task.name!, !task.done, task.date!);
-    updateTask(dayIndex, taskIndex, task.name!, !task.done, task.date!);
+    daysStore.updateTaskDone(dayIndex, taskIndex, !task.done);
+    await server.updateTaskDone(task.id!, !task.done);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateTask(dayIndex, taskIndex, e.target.value, task.done!, task.date!);
+    daysStore.updateTaskName(dayIndex, taskIndex, e.target.value);
   };
 
   const handleInputBlur = async () => {
-    await server.updateTask(task.id!, task.name!, task.done!, task.date!);
+    await server.updateTaskName(task.id!, task.name!);
   };
 
   return (
-    <div className="group flex items-center gap-3 border-y border-transparent py-2 has-[:focus]:border-gray-300">
+    <div className="group flex items-center gap-3 border-y border-transparent py-1.5 has-[:focus]:border-gray-300">
       <button onClick={handleCheckboxChange} className="peer">
         <Checkbox checked={task.done!} />
       </button>
@@ -43,7 +43,7 @@ export default function TaskCard({
         onChange={handleInputChange}
         onBlur={handleInputBlur}
         value={task.name!}
-        className={`peer flex-1 outline-none ${task.done && "text-gray-500 line-through"}`}
+        className={`peer flex-1 bg-transparent outline-none ${task.done && "text-gray-500 line-through"}`}
       />
       <button
         onClick={handleDeleteClick}

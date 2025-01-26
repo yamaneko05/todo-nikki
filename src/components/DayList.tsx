@@ -6,15 +6,15 @@ import { useEffect } from "react";
 import dayjs from "@/utils/dayjs";
 
 export default function DayList() {
-  const { days, loadDays } = useDaysStore();
+  const daysStore = useDaysStore();
 
   useEffect(() => {
-    loadDays(dayjs().add(-4, "day").toDate());
-  }, [loadDays]);
+    daysStore.loadDays(dayjs().add(-4, "day").toDate());
+  }, []);
 
   return (
-    <div className="flex flex-col gap-4">
-      {days.map((day, i) => (
+    <div className="flex flex-col divide-y">
+      {daysStore.days.map((day, i) => (
         <DayCard key={i} day={day} dayIndex={i} />
       ))}
     </div>

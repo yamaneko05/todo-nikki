@@ -9,11 +9,11 @@ export default function CreateTaskButton({
   date: Date;
   dayIndex: number;
 }) {
-  const { createTask } = useDaysStore();
+  const daysStore = useDaysStore();
 
   const handleClick = async () => {
     const task = await server.createTask(date);
-    createTask(dayIndex, task);
+    daysStore.createTask(dayIndex, task);
   };
 
   return (

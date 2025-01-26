@@ -55,22 +55,22 @@ export const createTask = async (date: Date) => {
   return task;
 };
 
-export const updateTask = async (
-  id: string,
-  name: string,
-  done: boolean,
-  date: Date,
-) => {
-  const task = await prisma.task.update({
+export const updateTaskName = async (id: string, name: string) => {
+  await prisma.task.update({
     where: { id: id },
     data: {
       name: name,
-      done: done,
-      date: date,
     },
   });
+};
 
-  return task;
+export const updateTaskDone = async (id: string, done: boolean) => {
+  await prisma.task.update({
+    where: { id: id },
+    data: {
+      done: done,
+    },
+  });
 };
 
 export const updateDiaryTitle = async (id: string, title: string) => {

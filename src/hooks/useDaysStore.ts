@@ -14,13 +14,8 @@ interface DaysStore {
   loadDays: (date: Date) => void;
   deleteTask: (dayIndex: number, taskIndex: number) => void;
   createTask: (dayIndex: number, task: Task) => void;
-  updateTask: (
-    dayIndex: number,
-    taskIndex: number,
-    name: string,
-    done: boolean,
-    date: Date,
-  ) => void;
+  updateTaskName: (dayIndex: number, taskIndex: number, name: string) => void;
+  updateTaskDone: (dayIndex: number, taskIndex: number, done: boolean) => void;
 }
 
 const useDaysStore = create<DaysStore>()(
@@ -43,19 +38,19 @@ const useDaysStore = create<DaysStore>()(
         draft.days[dayIndex].tasks.push(task);
       });
     },
-    updateTask: (
-      dayIndex: number,
-      taskIndex: number,
-      name: string,
-      done: boolean,
-      date: Date,
-    ) => {
+    updateTaskName: (dayIndex: number, taskIndex: number, name: string) => {
       set((draft) => {
         draft.days[dayIndex].tasks[taskIndex] = {
           ...draft.days[dayIndex].tasks[taskIndex],
           name: name,
+        };
+      });
+    },
+    updateTaskDone: (dayIndex: number, taskIndex: number, done: boolean) => {
+      set((draft) => {
+        draft.days[dayIndex].tasks[taskIndex] = {
+          ...draft.days[dayIndex].tasks[taskIndex],
           done: done,
-          date: date,
         };
       });
     },
