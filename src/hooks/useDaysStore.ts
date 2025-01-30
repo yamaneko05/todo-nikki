@@ -1,6 +1,7 @@
 import * as server from "@/server";
 import dayjs from "@/utils/dayjs";
 import { Diary, Task } from "@prisma/client";
+import { Dayjs } from "dayjs";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
@@ -12,7 +13,7 @@ export interface Day {
 
 interface DaysStore {
   days: Day[];
-  loadDays: () => void;
+  loadDays: (date: Dayjs) => void;
   loadNextDays: () => void;
   loadPreviousDays: () => void;
   deleteTask: (dayIndex: number, taskIndex: number) => void;
@@ -24,8 +25,8 @@ interface DaysStore {
 const useDaysStore = create<DaysStore>()(
   immer((set, get) => ({
     days: [],
-    loadDays: async () => {
-      const dateGte = dayjs().add(-4, "day");
+    loadDays: async (date: Dayjs) => {
+      const dateGte = date.add(-4, "day");
       const dateLte = dateGte.add(15, "day");
       const days = await server.getDays(dateGte.toDate(), dateLte.toDate());
 

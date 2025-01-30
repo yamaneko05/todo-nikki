@@ -1,10 +1,12 @@
 import djs, { Dayjs } from "dayjs";
 import calendar from "dayjs/plugin/calendar";
+import isToday from "dayjs/plugin/isToday";
 import ja from "dayjs/locale/ja";
 
 const dayjs = djs;
 
 djs.extend(calendar);
+djs.extend(isToday);
 djs.locale(ja);
 
 export function getDaysBetween(start: Dayjs, end: Dayjs) {

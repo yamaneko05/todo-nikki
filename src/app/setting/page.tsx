@@ -1,4 +1,4 @@
-import SettingHeader from "@/components/SettingHeader";
+import SettingHeader from "@/components/headers/SettingHeader";
 import { auth, signOut } from "@/utils/auth";
 import { redirect } from "next/navigation";
 

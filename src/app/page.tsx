@@ -1,5 +1,5 @@
 import DayList from "@/components/DayList";
-import HomeHeader from "@/components/HomeHeader";
+import HomeHeader from "@/components/headers/HomeHeader";
 import { auth } from "@/utils/auth";
 import { redirect } from "next/navigation";
 

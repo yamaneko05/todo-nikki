@@ -1,5 +1,5 @@
 import DiaryEdit from "@/components/DiaryEdit";
-import DiaryHeader from "@/components/DiaryHeader";
+import DiaryHeader from "@/components/headers/DiaryHeader";
 import { prisma } from "@/utils/prisma";
 import { notFound } from "next/navigation";
 

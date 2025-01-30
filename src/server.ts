@@ -32,8 +32,6 @@ export const getDays = async (dateGte: Date, dateLte: Date) => {
     };
   });
 
-  console.log(days.length);
-
   return days;
 };
 
