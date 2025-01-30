@@ -1,4 +1,5 @@
-import { LucideCalendarDays, LucideSettings } from "lucide-react";
+import dayjs from "@/utils/dayjs";
+import { LucideCalendarDays, LucideClock, LucideSettings } from "lucide-react";
 import Link from "next/link";
 
 export default function HomeHeader() {
@@ -8,6 +9,14 @@ export default function HomeHeader() {
       <div className="flex gap-4">
         <Link href="/setting">
           <LucideSettings />
+        </Link>
+        <Link
+          href={{
+            pathname: "/",
+            query: { date: dayjs().format("YYYY-MM-DD") },
+          }}
+        >
+          <LucideClock />
         </Link>
         <Link href="/calendar">
           <LucideCalendarDays />

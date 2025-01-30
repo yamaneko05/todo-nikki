@@ -4,11 +4,10 @@ import useDaysStore from "@/hooks/useDaysStore";
 import DayCard from "./DayCard";
 import { useEffect, useRef } from "react";
 import dayjs from "@/utils/dayjs";
-import { useSearchParams } from "next/navigation";
 
 export default function DayList() {
   const daysStore = useDaysStore();
-  const searchParams = useSearchParams();
+  const searchParams = new URLSearchParams();
   const refs = useRef<{ [K in string]: HTMLDivElement }>({});
   const scrolledRef = useRef(false);
   const dateRef = useRef(dayjs().format("YYYY-MM-DD"));

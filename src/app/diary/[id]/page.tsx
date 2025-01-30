@@ -16,7 +16,7 @@ export default async function DiaryEditPage({
 
   return (
     <>
-      <DiaryHeader />
+      <DiaryHeader diary={diary} />
       <div className="px-3 py-2">
         <DiaryEdit diary={diary} />
       </div>
